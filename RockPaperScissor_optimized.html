@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rock Paper Scissors</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="https://iili.io/JRLossf.png" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #8EC5FC;
+      background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+
+    }
+
+    header {
+      font-family: "Bangers", cursive;
+      font-weight: bolder;
+      text-decoration: underline;
+      color: #2616afb6;
+      height: 10vh;
+      margin-top: 10vh;
+    }
+
+    center {
+      font-size: 10vh;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 15vh);
+      grid-template-rows: repeat(3, 15vh);
+      grid-gap: 0.3vw;
+      justify-content: center;
+      height: 20vh;
+      margin-top: 5vh;
+    }
+
+    .box {
+      background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+      color: #ff1d58;
+      text-align: center;
+      padding: 50px 0;
+      font-size: xx-large;
+      font-family: "Comic Neue", cursive;
+      border: #8b4afc 2px solid;
+      border-radius: 15px;
+      cursor: pointer;
+      background-size: cover;
+    }
+
+    #rock {
+      background-image: url(rock.png);
+    }
+
+    #paper {
+      background-image: url(paper.png);
+    }
+
+    #scissor {
+      background-image: url(scissors.png);
+    }
+
+    #result {
+      font-size: 5vh;
+      color: #00cdac;
+      font-family: "Comic Neue", cursive;
+    }
+
+    .player {
+      height: 40vh;
+      display: flex;
+      justify-content: space-evenly;
+      margin: 10vw;
+    }
+
+    .user {
+      height: 35vh;
+      width: 35vh;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>
+      <center>Rock Paper Scissors</center>
+    </h1>
+  </header>
+
+  <br />
+  <div class="container">
+    <div class="box" id="rock" onclick="moveImg(0)"></div>
+    <div class="box" id="paper" onclick="moveImg(1)"></div>
+    <div class="box" id="scissor" onclick="moveImg(2)"></div>
+  </div>
+
+  <div>
+    <center id="result"></center>
+  </div>
+
+  <div class="player">
+    <div class="user" id="user1"></div>
+    <div class="user" id="user2"></div>
+  </div>
+  <script>
+    // Use querySelector instead of getElementById for brevity
+    const user1Style = document.querySelector("#user1").style;
+    const user2Style = document.querySelector("#user2").style;
+    const resultElem = document.querySelector("#result");
+
+    // Define constants for rock, paper, and scissors moves
+    const rock = "r";
+    const paper = "p";
+    const scissors = "s";
+
+    // Define a function to generate a random move
+    function getRandomMove() {
+      const moves = [rock, paper, scissors];
+      const randomIndex = Math.floor(Math.random() * moves.length);
+      return moves[randomIndex];
+    }
+
+    // Define a function to update the UI with a move and return the move
+    function setMove(move, style) {
+      style.backgroundImage = `url(${move}.png)`;
+      style.backgroundSize = "cover";
+      return move;
+    }
+
+    // Define a function to determine the outcome of the game
+    function getOutcome(compMove, userMove) {
+      if (compMove === userMove) {
+        return "Draw";
+      } else if (
+        (compMove === rock && userMove === scissors) ||
+        (compMove === paper && userMove === rock) ||
+        (compMove === scissors && userMove === paper)
+      ) {
+        return "Pc Wins";
+      } else {
+        return "Player Wins";
+      }
+    }
+
+    // Define a function to handle a user move
+    function handleUserMove(move) {
+      // Generate a random move for the computer
+      const compMove = getRandomMove();
+
+      // Set the moves in the UI and get the updated moves
+      const updatedUserMove = setMove(move, user1Style);
+      const updatedCompMove = setMove(compMove, user2Style);
+
+      // Determine the outcome of the game and update the UI
+      const outcome = getOutcome(compMove, updatedUserMove);
+      resultElem.innerText = outcome;
+    }
+
+    // Add event listeners for the user moves
+    document
+      .querySelector("#rock")
+      .addEventListener("click", () => handleUserMove(rock));
+    document
+      .querySelector("#paper")
+      .addEventListener("click", () => handleUserMove(paper));
+    document
+      .querySelector("#scissors")
+      .addEventListener("click", () => handleUserMove(scissors));
+  </script>
+</body>
+
+</html>
